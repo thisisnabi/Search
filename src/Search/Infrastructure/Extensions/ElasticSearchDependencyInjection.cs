@@ -1,8 +1,4 @@
-﻿using Elastic.Clients.Elasticsearch;
-using Elastic.Transport;
-using Microsoft.Extensions.Options;
-
-namespace Search.Infrastructure.Extensions;
+﻿namespace Search.Infrastructure.Extensions;
 
 public static class ElasticSearchDependencyInjection
 {

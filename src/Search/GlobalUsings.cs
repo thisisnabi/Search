@@ -11,5 +11,6 @@ global using Elastic.Clients.Elasticsearch;
 global using Search.Models;
 global using Catalog.Infrastructure.IntegrationEvents;
 global using Search.Infrastructure.Extensions;
-global using Search;
+global using Elastic.Transport;
+global using Microsoft.Extensions.Options;
 
