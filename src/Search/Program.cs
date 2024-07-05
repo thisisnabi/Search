@@ -1,11 +1,11 @@
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.BrokerConfigure();
 builder.ElasticSearchConfigure();
+builder.BindAppSettings();
 
-builder.Services.Configure<AppSettings>(builder.Configuration);
+builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
@@ -15,11 +15,9 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 app.MapGet("/", SearchItems);
-
-
+ 
 app.Run();
-
-
+ 
 static async Task<Results<Ok<IReadOnlyCollection<CatalogItemIndex>>, NotFound>> SearchItems(string qr, ElasticsearchClient elasticsearch)
 {
     var response = await elasticsearch.SearchAsync<CatalogItemIndex>(s => s
