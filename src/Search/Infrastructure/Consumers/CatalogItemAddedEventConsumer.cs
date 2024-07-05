@@ -17,7 +17,7 @@ public class CatalogItemAddedEventConsumer(ElasticsearchClient elasticsearchClie
             Description = message.Description,
             Url = message.DetailUrl,
             Name = message.Name,
-            Slug = message.Slug,
+            Id = message.Slug,
         };
 
         var result = await _elasticsearchClient.Indices.ExistsAsync(CatalogItemIndex.IndexName);

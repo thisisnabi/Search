@@ -1,4 +1,4 @@
-﻿namespace Search.Infrastructure.Consumers.IntegrationEvents;
+﻿namespace Catalog.Infrastructure.IntegrationEvents;
 
 public record CatalogItemChangedEvent(
     string Name,
