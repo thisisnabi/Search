@@ -1,14 +1,7 @@
-﻿using Catalog.Infrastructure.IntegrationEvents;
-using Elastic.Clients.Elasticsearch;
-using MassTransit;
-using Search.Models;
+﻿namespace Search.Infrastructure.Consumers;
 
-namespace Search.Infrastructure.Consumers;
-
-public class CatalogItemAddedEventConsumer(ElasticsearchClient elasticsearchClient)
-    : IConsumer<CatalogItemAddedEvent>
+public class CatalogItemAddedEventConsumer(ElasticsearchClient elasticsearchClient) : IConsumer<CatalogItemAddedEvent>
 {
-
     private readonly ElasticsearchClient _elasticsearchClient = elasticsearchClient;
 
     public async Task Consume(ConsumeContext<CatalogItemAddedEvent> context)
@@ -22,7 +15,7 @@ public class CatalogItemAddedEventConsumer(ElasticsearchClient elasticsearchClie
             CatalogBrand = message.CatalogBrand,
             CatalogCategory = message.CatalogCategory,
             Description = message.Description,
-            hintUr = message.hintUrl,
+            Url = message.DetailUrl,
             Name = message.Name,
             Slug = message.Slug,
         };
@@ -31,9 +24,10 @@ public class CatalogItemAddedEventConsumer(ElasticsearchClient elasticsearchClie
 
         if (!result.Exists)
         {
-            await _elasticsearchClient.Indices.CreateAsync<CatalogItemIndex>(index: CatalogItemIndex.IndexName);
+            await _elasticsearchClient.Indices
+                .CreateAsync<CatalogItemIndex>(index: CatalogItemIndex.IndexName);
         }
 
-        var response = await _elasticsearchClient.IndexAsync(itemIndex, index: CatalogItemIndex.IndexName);
+        await _elasticsearchClient.IndexAsync(itemIndex, index: CatalogItemIndex.IndexName);
     }
 }
