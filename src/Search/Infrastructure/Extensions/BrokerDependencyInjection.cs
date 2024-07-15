@@ -12,10 +12,8 @@ public static class BrokerDependencyInjection
         {
             var brokerConfig = builder.Configuration.GetSection(BrokerOptions.SectionName)
                                                     .Get<BrokerOptions>();
-            if (brokerConfig is null)
-            {
-                throw new ArgumentNullException(nameof(BrokerOptions));
-            }
+            
+            ArgumentNullException.ThrowIfNull(brokerConfig, nameof(BrokerOptions));
 
             configure.AddConsumers(Assembly.GetExecutingAssembly());
 
